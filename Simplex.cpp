@@ -1,5 +1,28 @@
 #include "Simplex.h"
+
+Table* makeTable();
+
 int main()
+{
+    Table* t = makeTable();
+    /*
+    Coord p = t.findPivot();
+    t.usePivotOnTable(p);
+    t.print();
+    */
+    std::vector<float> vals = t->getMax();
+    for(int i =0;i<vals.size()-1;i++)
+    {
+        std::cout << "Component " << i << " = " << vals[i] << "\n";
+    }
+    std::cout << "Max Profit: " << vals[vals.size()-1] << "\n";
+
+
+}
+
+
+
+Table* makeTable()
 {
     int componentNum;
     int equationNum;
@@ -10,6 +33,8 @@ int main()
 
     std::vector<Row> equations;
 
+
+    bool artifialVariables = false;
     for(int i =0;i<equationNum;i++)
     {
         std::vector<float>c;
@@ -39,23 +64,36 @@ int main()
     }
     c.push_back(0); //Value of objective
 
-    Row objective(c);
-    Table t (equations,objective);
-    t.componentNum = componentNum;
-    /*
-    Coord p = t.findPivot();
-    t.usePivotOnTable(p);
-    t.print();
-    */
-    std::vector<float> vals = t.getMax();
-    for(int i =0;i<vals.size()-1;i++)
+    char a;
+    std::cout << "Are there artificial variables? y/N >";
+    std::cin >> a;
+    if(a == 'y')
     {
-        std::cout << "Component " << i << " = " << vals[i] << "\n";
+        artifialVariables = true;
     }
-    std::cout << "Max Profit: " << vals[vals.size()-1] << "\n";
+
+    if(artifialVariables)
+    {
+        std::cout << "Now the function for minimising the artificial function\n";
+        std::vector<float>c;
+        for(int i =0;i<componentNum;i++)
+        {
+            int num;
+            std::cout << "\nInput component " << i << " >";
+            std::cin >> num;
+            c.push_back(num);
+        }
+        int num;
+        std::cout << "\nInput Value >";
+        std::cin >> num;
+        c.push_back(num);
+
+        Row artificialFunction(c);
+    }
 
 
+    Row objective(c);
+    Table* t  = new Table(equations,objective);
+    t->componentNum = componentNum;
+    return t;
 }
-
-
-

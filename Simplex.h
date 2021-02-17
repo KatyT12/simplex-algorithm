@@ -26,13 +26,25 @@ class Table{
         std::vector<Row> rows;
         Row objective;
         
+        Row* artificial;
+        bool artificialVariables = false;
+
+
         Table(std::vector<Row> functions, Row objectiveFunction)
         : objective(objectiveFunction)
         {
             rows = functions;
             bv = new int[rows.size()];
         }
+        
 
+        void setArtificialFunction(Row* a)
+        {
+            artificial = a;
+            artificialVariables = true;
+            rows.push_back(objective);
+            objective = *artificial;
+        }
 
         //This returns the values of all the components in order and the value of the optimised vale is last
         std::vector<float> getMax()
@@ -43,6 +55,17 @@ class Table{
                 usePivotOnTable(p);
                 checkBasicVariables();
 
+            }
+            if(artificialVariables)
+            {
+                objective = rows[rows.size()-1];
+                rows.pop_back();
+                while(!checkIfFinnished())
+                {
+                    Coord p = findPivot();
+                    usePivotOnTable(p);
+                    checkBasicVariables();
+                }
             }
             return getFinishedValues();
         }
@@ -111,7 +134,6 @@ class Table{
                 {
                     if(getValueAt({j,i}) == 1)
                     {
-
                         bool isBasic = true;
                         for(int r = 0; r < rows.size();r++)
                         {
