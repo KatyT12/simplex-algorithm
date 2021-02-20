@@ -5,22 +5,14 @@ Table* makeTable();
 int main()
 {
     Table* t = makeTable();
-    /*
-    Coord p = t.findPivot();
-    t.usePivotOnTable(p);
-    t.print();
-    */
     std::vector<float> vals = t->getMax();
     for(int i =0;i<vals.size()-1;i++)
     {
         std::cout << "Component " << i << " = " << vals[i] << "\n";
     }
     std::cout << "Max Profit: " << vals[vals.size()-1] << "\n";
-
-
+    delete t;
 }
-
-
 
 Table* makeTable()
 {
@@ -52,7 +44,6 @@ Table* makeTable()
 
         equations.push_back(Row(c));
     }
-
     std::cout << "Now the objective function...\n";
     std::vector<float>c;
     for(int i =0;i<componentNum;i++)
@@ -71,7 +62,6 @@ Table* makeTable()
     {
         artifialVariables = true;
     }
-
     if(artifialVariables)
     {
         std::cout << "Now the function for minimising the artificial function\n";

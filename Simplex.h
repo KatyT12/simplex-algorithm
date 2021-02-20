@@ -26,10 +26,7 @@ class Table{
         std::vector<Row> rows;
         Row objective;
         
-        Row* artificial;
         bool artificialVariables = false;
-
-
         Table(std::vector<Row> functions, Row objectiveFunction)
         : objective(objectiveFunction)
         {
@@ -37,13 +34,10 @@ class Table{
             bv = new int[rows.size()];
         }
         
-
         void setArtificialFunction(Row* a)
         {
-            artificial = a;
-            artificialVariables = true;
             rows.push_back(objective);
-            objective = *artificial;
+            objective = *a;
         }
 
         //This returns the values of all the components in order and the value of the optimised vale is last
@@ -74,8 +68,6 @@ class Table{
         {
             return rows[c.y].components[c.x];
         }
-
-        
 
         void usePivotOnTable(Coord pivot)
         {
