@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 struct Coord
 {
@@ -40,7 +41,7 @@ class Table{
             objective = *a;
         }
 
-        //This returns the values of all the components in order and the value of the optimised vale is last
+        //This returns the values of all the components in order and the value of the optimised vale is last. Optimal Non integer solution
         std::vector<float> getMax()
         {
             while(!checkIfFinnished())
@@ -48,7 +49,6 @@ class Table{
                 Coord p = findPivot();
                 usePivotOnTable(p);
                 checkBasicVariables();
-
             }
             if(artificialVariables)
             {
@@ -89,10 +89,7 @@ class Table{
 
         void divideRow(int r, float val)
         {
-            for(int i = 0; i < componentNum+1;i++)
-            {
-                rows[r].components[i] /= val;
-            }
+            std::for_each(rows[r].components.begin(),rows[r].components.end(),[val](float& x){x /= val;});
         }
 
         void addRow(Row* r1,Row* r2, float coefficient)
@@ -196,10 +193,7 @@ class Table{
                 std::cout<< "\n";
             }
 
-            for(int j =0;j<componentNum+1;j++)
-            {
-                std::cout << objective.components[j] << " ";
-            }
+            std::for_each(objective.components.begin(),objective.components.end(),[](float x) {std::cout << x << " ";});
             std::cout<< "\n";
         }
 

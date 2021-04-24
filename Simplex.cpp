@@ -14,6 +14,7 @@ int main()
     delete t;
 }
 
+
 Table* makeTable()
 {
     int componentNum;
@@ -55,7 +56,7 @@ Table* makeTable()
     }
     c.push_back(0); //Value of objective
 
-    char a;
+    char a = 'N';
     std::cout << "Are there artificial variables? y/N >";
     std::cin >> a;
     if(a == 'y')
