@@ -12,6 +12,10 @@ int main()
     }
     std::cout << "Max Profit: " << vals[vals.size()-1] << "\n";
     delete t;
+
+    int a;
+    std::cin >> a;
+    return 0;
 }
 
 
