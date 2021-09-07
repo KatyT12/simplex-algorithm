@@ -30,7 +30,6 @@ Table* makeTable()
 
     std::vector<Row> equations;
 
-
     bool artifialVariables = false;
     for(int i =0;i<equationNum;i++)
     {
@@ -60,6 +59,11 @@ Table* makeTable()
     }
     c.push_back(0); //Value of objective
 
+    Row objective(c);
+    Table* t  = new Table(equations,objective);
+    t->componentNum = componentNum;
+
+
     char a = 'N';
     std::cout << "Are there artificial variables? y/N >";
     std::cin >> a;
@@ -84,11 +88,10 @@ Table* makeTable()
         c.push_back(num);
 
         Row artificialFunction(c);
+        t->setArtificialFunction(&artificialFunction);
     }
 
 
-    Row objective(c);
-    Table* t  = new Table(equations,objective);
-    t->componentNum = componentNum;
+   
     return t;
 }

@@ -39,6 +39,7 @@ class Table{
         {
             rows.push_back(objective);
             objective = *a;
+            artificialVariables = true;
         }
 
         //This returns the values of all the components in order and the value of the optimised vale is last. Optimal Non integer solution
@@ -234,3 +235,4 @@ class Table{
             return c;
         }
 };
+
